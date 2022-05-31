@@ -64,3 +64,6 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+#MacOS-generated spotlight indexing files
+.DS_store
