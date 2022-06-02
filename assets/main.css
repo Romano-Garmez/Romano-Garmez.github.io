@@ -57,19 +57,24 @@ img {
   margin-right: auto;
 }
 
-.column {
+.img-container3 {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+.img-container2 {
   float: left;
   width: 50%;
   padding: 5px;
-  align-items: center;
 }
 
-/* Clear floats after image containers */
-.row::after {
-
+.clearfix::after {
   content: "";
   clear: both;
   display: table;
+}
 
-  
+* {
+  box-sizing: border-box;
 }
