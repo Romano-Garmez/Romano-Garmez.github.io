@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>roman main page</title>
 	<meta name="description" content="something should go here eventually">
-	<link rel="icon" href="favicon.gif" type="image/gif" >
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/9.8.2/firebase-app-compat.js"></script>
@@ -27,6 +26,34 @@
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 
     
+	<script>
+		var favicon_images = [
+		                    'favicon1.png',
+		                    'favicon2.png',
+		                    'favicon3.png',
+		                    'favicon4.png'
+		                ],
+		    image_counter = 0; // To keep track of the current image
+
+		setInterval(function() {
+		    // remove current favicon
+		    if(document.querySelector("link[rel='icon']") !== null)
+		        document.querySelector("link[rel='icon']").remove();
+		    if(document.querySelector("link[rel='shortcut icon']") !== null)
+		        document.querySelector("link[rel='shortcut icon']").remove();
+        
+		    // add new favicon image
+		    document.querySelector("head").insertAdjacentHTML('beforeend', '<link rel="icon" href="' + favicon_images[image_counter] + '" type="image/gif">');
+    
+		    // If last image then goto first image
+		    // Else go to next image    
+		    if(image_counter == favicon_images.length -1)
+		        image_counter = 0;
+		    else
+		        image_counter++;
+		}, 500);
+		</script>
+	
   </head>
   <body>
     <h1>placeholder text</h1>
