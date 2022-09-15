@@ -1,4 +1,4 @@
 # romangarms-website
-my website
+My website
 
-a real mess atm the moment
+Viewable here: <https://romangarms.com>
