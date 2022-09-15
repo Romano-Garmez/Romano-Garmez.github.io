@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<link rel="stylesheet" href="main.css">
+
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- http://getbootstrap.com/docs/5.1/ -->
@@ -10,9 +10,8 @@
 		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
 	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
-
-	<title>roman main page</title>
-	<meta name="description" content="something should go here eventually">
+	<link rel="stylesheet" href="main.css">
+	<title>romango</title>
 
 	<!-- update the version number as needed -->
 	<script defer src="/__/firebase/9.8.2/firebase-app-compat.js"></script>
@@ -64,17 +63,38 @@
 </head>
 
 <body>
-	<ul class="nav tab-bar">
-		<li class="nav-item">
-		  <a class="nav-link text-danger" href="https://blog.romangarms.com">Blog</a>
-		</li>
-		<li class="nav-item">
-		  <a class="nav-link text-danger" href="https://nowplaying.romangarms.com">Spotify Now Playing</a>
-		</li>
-		<li class="nav-item">
-		  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">More Coming Soon</a>
-		</li>
-	  </ul>
+	<nav class="navbar navbar-expand-lg bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="https://www.romangarms.com/">Romango Site</a>
+			<button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page"
+							href="https://blog.romangarms.com">Blog</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page"
+							href="https://nowplaying.romangarms.com">Spotify
+							Now Playing</a>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page"
+							href="https://github.com/Romano-Garmez">GitHub</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled">More Coming Soon</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<p>
+
+	</p>
 	<h1 class="centered-text">placeholder text</h1>
 
 	<p class="centered-text">I don't have anything to put here yet but I didn't want this site to give an error when you

@@ -6,6 +6,26 @@
   text-align: center;
 }
 
-.tab-bar{
+.tab-bar {
   background-color: #f8f9fa;
+}
+
+.romango-red {
+  color: #ed2024;
+}
+
+body {
+  background-color: #7c8b9b;
+}
+
+.navbar ul li a {
+  color: #ed2024;
+}
+
+.navbar ul li a:hover {
+  color: #fff;
+}
+
+.navbar-brand {
+  color: #ed2024 !important;
 }
