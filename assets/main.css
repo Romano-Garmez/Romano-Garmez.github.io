@@ -1,5 +1,6 @@
 .centered {
   margin: auto;
+  
 }
 
 .centered-text {
@@ -28,4 +29,8 @@ body {
 
 .navbar-brand {
   color: #ed2024 !important;
+}
+
+iframe {
+  display: block;
 }
