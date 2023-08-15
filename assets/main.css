@@ -1,6 +1,6 @@
 .centered {
   margin: auto;
-  
+
 }
 
 .centered-text {
@@ -33,4 +33,97 @@ body {
 
 iframe {
   display: block;
+}
+
+.container {
+  /* 2x2 grid system */
+  margin: 20px 0px;
+
+  display: grid;
+  grid-template-columns: 36vw 36vw;
+  grid-row: auto auto;
+  grid-column-gap: 1vw;
+  grid-row-gap: 1vh;
+}
+
+.container-single {
+  margin: 20px 0px;
+  display: grid;
+}
+
+.container .box {
+  /* each individual box inside the grid */
+  padding: 20px;
+  background-color: #212529;
+  height: fit-content;
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+
+.container a {
+
+  /* Grey background color */
+  color: #eee;
+  /* Black text color */
+  display: block;
+  /* Make the links appear below each other */
+
+  padding-top: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+  /* Add some padding */
+  text-decoration: none;
+  /* Remove underline from links */
+  line-height: 20px
+}
+
+.container-single .box {
+  /* each individual box inside the grid */
+  padding: 20px;
+  background-color: #212529;
+  height: fit-content;
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+
+.box:hover {
+  background-color: #000000;
+}
+
+.box img {
+  padding-bottom: 12px;
+}
+
+div .container {
+  /* fix scaling on thin screens */
+  --bs-gutter-x: 2vw;
+}
+
+.material-symbols-outlined {
+  font-size: 16px;
+  line-height: 30px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.preview-image {
+  width: 100%;
+}
+
+#body {
+  display: flex;
+  padding: 1%;
+  margin: auto;
+  justify-content: center;
+}
+
+.vertical-list h4 {
+  color: #fff;
+  background-color: #2596be;
+  display: block;
+  padding: 12px;
+  margin-bottom: 0;
+  margin-top: 10px;
 }
