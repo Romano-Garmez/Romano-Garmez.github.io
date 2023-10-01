@@ -12,33 +12,8 @@
     <title>Roman Garms: Photo Showcase</title>
 
 
-    <script>
-        var favicon_images = [
-            'favicons/favicon1.png',
-            'favicons/favicon2.png',
-            'favicons/favicon3.png',
-            'favicons/favicon4.png'
-        ],
-            image_counter = 0; // To keep track of the current image
+    <script type="text/javascript" src="animateFavicon.js"></script>
 
-        setInterval(function () {
-            // remove current favicon
-            if (document.querySelector("link[rel='icon']") !== null)
-                document.querySelector("link[rel='icon']").remove();
-            if (document.querySelector("link[rel='shortcut icon']") !== null)
-                document.querySelector("link[rel='shortcut icon']").remove();
-
-            // add new favicon image
-            document.querySelector("head").insertAdjacentHTML('beforeend', '<link rel="icon" href="' + favicon_images[image_counter] + '" type="image/gif">');
-
-            // If last image then goto first image
-            // Else go to next image    
-            if (image_counter == favicon_images.length - 1)
-                image_counter = 0;
-            else
-                image_counter++;
-        }, 500);
-    </script>
     <script src="https://static.kuula.io/embed.js"
         data-kuula="https://kuula.co/share/collection/79yCf?logo=1&info=1&fs=1&vr=0&zoom=1&autop=10&thumbs=1"
         data-width="100%" data-height="640px"></script>
@@ -81,7 +56,7 @@
         <div id="sidebar">
             <h1 class="centered-text">Photo Showcase</h1>
             <br>
-            <p >Here's some 360 degree spherical photos I've taken with my drone, all nice and interactive on a webpage!
+            <p>Here's some 360 degree spherical photos I've taken with my drone, all nice and interactive on a webpage!
             </p>
         </div>
 
