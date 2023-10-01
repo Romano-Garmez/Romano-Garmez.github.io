@@ -1,6 +1,5 @@
 .centered {
   margin: auto;
-
 }
 
 .centered-text {
@@ -8,27 +7,51 @@
 }
 
 .tab-bar {
-  background-color: #f8f9fa;
+  background-color: #003D5B;
 }
 
-.romango-red {
-  color: #ed2024;
-}
-
-body {
-  background-color: #7c8b9b;
+.navbar {
+  background-color: #EDAE49;
 }
 
 .navbar ul li a {
-  color: #ed2024;
+  color: #003D5B;
 }
 
 .navbar ul li a:hover {
   color: #fff;
 }
 
+body {
+  background-color: #262626;
+}
+
 .navbar-brand {
-  color: #ed2024 !important;
+  color: #262626 !important;
+}
+
+.romango-red {
+  color: #D1495B;
+}
+
+h1 {
+  color: #FFFFFF;
+}
+
+h2 {
+  color: #FFFFFF;
+}
+
+h3 {
+  color: #FFFFFF;
+}
+
+h4 {
+  color: #FFFFFF;
+}
+
+p {
+  color: #FFFFFF;
 }
 
 iframe {
@@ -54,7 +77,7 @@ iframe {
 .container .box {
   /* each individual box inside the grid */
   padding: 20px;
-  background-color: #212529;
+  background-color: #07070A;
   height: fit-content;
   display: block;
   align-items: center;
@@ -81,7 +104,7 @@ iframe {
 .container-single .box {
   /* each individual box inside the grid */
   padding: 20px;
-  background-color: #212529;
+  background-color: #082032;
   height: fit-content;
   display: block;
   align-items: center;
@@ -125,9 +148,13 @@ div .container {
 
 .vertical-list h4 {
   color: #fff;
-  background-color: #2596be;
   display: block;
   padding: 12px;
   margin-bottom: 0;
   margin-top: 10px;
+}
+
+#sidebar {
+  padding-top: 20px;
+  padding-left: 12px;
 }
