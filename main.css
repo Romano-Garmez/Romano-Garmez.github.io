@@ -10,8 +10,9 @@
   color: #fff;
 }
 
+
 a {
-  font-size: large;
+  font-size: x-large;
 }
 
 p {
@@ -23,6 +24,7 @@ body {
 }
 
 .navbar-brand {
+  font-size: xx-large;
   color: #262626 !important;
 }
 
@@ -49,6 +51,9 @@ p {
 #sidebar-links {
   color: #D1495B;
   font-size: x-large;
+}
+#sidebar-links:hover {
+  color: #ffffff;
 }
 
 
@@ -110,7 +115,7 @@ p {
 }
 
 .box img {
-  padding-bottom: 12px;
+  padding-bottom: 20px;
 }
 
 div .container {
