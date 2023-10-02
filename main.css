@@ -153,6 +153,10 @@ div .container {
   padding-left: 12px;
 }
 
+.sidebar-icon {
+  padding-right: 12px;
+}
+
 .centered {
   margin: auto;
 }
