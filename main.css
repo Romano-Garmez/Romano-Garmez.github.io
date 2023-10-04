@@ -10,7 +10,6 @@
   color: #fff;
 }
 
-
 a {
   font-size: x-large;
 }
@@ -80,7 +79,7 @@ p {
   display: grid;
 }
 
-.container .box {
+.box {
   /* each individual box inside the grid */
   padding: 20px;
   background-color: #07070A;
@@ -88,6 +87,15 @@ p {
   display: block;
   align-items: center;
   justify-content: center;
+  border-radius: 10px;
+}
+
+.box:hover {
+  background-color: #00798C;
+}
+
+.box img {
+  padding-bottom: 20px;
 }
 
 .container a {
@@ -107,34 +115,9 @@ p {
   line-height: 20px
 }
 
-.container-single .box {
-  /* each individual box inside the grid */
-  padding: 20px;
-  background-color: #082032;
-  height: fit-content;
-  display: block;
-  align-items: center;
-  justify-content: center;
-}
-
-.box:hover {
-  background-color: #00798C;
-}
-
-.box img {
-  padding-bottom: 20px;
-}
-
 div .container {
   /* fix scaling on thin screens */
   --bs-gutter-x: 2vw;
-}
-
-.material-symbols-outlined {
-  font-size: 16px;
-  line-height: 30px;
-  display: table-cell;
-  vertical-align: middle;
 }
 
 .preview-image {
@@ -152,14 +135,6 @@ div .container {
   width: 75vw;
 }
 
-.vertical-list h4 {
-  color: #fff;
-  display: block;
-  padding: 12px;
-  margin-bottom: 0;
-  margin-top: 10px;
-}
-
 #sidebar {
   padding-top: 20px;
   padding-left: 12px;
@@ -167,6 +142,18 @@ div .container {
 
 .sidebar-icon {
   padding-right: 12px;
+}
+
+@media only screen and (max-width: 1080px) {
+  #sidebar {
+      display: none;
+  }
+  .vertical-list {
+    width: 100vw;
+  }
+  .container {
+    grid-template-columns: 45vw 45vw;
+  }
 }
 
 .centered {
