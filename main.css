@@ -52,10 +52,17 @@ p {
   color: #D1495B;
   font-size: x-large;
 }
+
 #sidebar-links:hover {
   color: #ffffff;
 }
 
+#fourohfour {
+  margin: 100px;
+  padding: 20px;
+  background-color: #D1495B;
+  border-radius: 25px;
+}
 
 .container {
   /* 2x2 grid system */
