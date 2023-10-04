@@ -146,11 +146,13 @@ div .container {
 
 @media only screen and (max-width: 1080px) {
   #sidebar {
-      display: none;
+    display: none;
   }
+
   .vertical-list {
     width: 100vw;
   }
+
   .container {
     grid-template-columns: 45vw 45vw;
   }
