@@ -95,7 +95,9 @@ p {
 }
 
 .box img {
-  padding-bottom: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+
 }
 
 .container a {
