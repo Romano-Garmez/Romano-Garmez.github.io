@@ -95,7 +95,7 @@ p {
 }
 
 .box img {
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 }
 
 .container a {
@@ -112,7 +112,7 @@ p {
   /* Add some padding */
   text-decoration: none;
   /* Remove underline from links */
-  line-height: 20px
+  line-height: 30px
 }
 
 div .container {
