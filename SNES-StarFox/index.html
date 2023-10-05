@@ -22,6 +22,7 @@
 </head>
 
 <body>
+
   <!-- navbar goes here -->
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
@@ -53,6 +54,7 @@
       </div>
     </div>
   </nav>
+
 
   <div id="unity-container" class="unity-desktop">
     <canvas id="unity-canvas" width=960 height=600></canvas>
@@ -104,9 +106,9 @@
     var buildUrl = "Build";
     var loaderUrl = buildUrl + "/WebGL Build.loader.js";
     var config = {
-      dataUrl: buildUrl + "/WebGL Build.data.gz",
-      frameworkUrl: buildUrl + "/WebGL Build.framework.js.gz",
-      codeUrl: buildUrl + "/WebGL Build.wasm.gz",
+      dataUrl: buildUrl + "/WebGL Build.data",
+      frameworkUrl: buildUrl + "/WebGL Build.framework.js",
+      codeUrl: buildUrl + "/WebGL Build.wasm",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "SNES Clone - Starfox",
