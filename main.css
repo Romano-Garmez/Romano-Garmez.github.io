@@ -167,3 +167,13 @@ div .container {
 .centered-text {
   text-align: center;
 }
+
+#about-me{
+  float: left;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+li{
+  color: #fff;
+}
