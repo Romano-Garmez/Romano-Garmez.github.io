@@ -179,14 +179,14 @@ div .container {
 
 #about-me-container {
   width: 100%;
-  height: 27vh;
+  height: 100%;
 }
 
 #about-me-tiles-1{
-  height: 30vh;
+height: auto;
 }
 #about-me-tiles-2{
-  height: 20vh;
+  height: auto;
 }
 
 li {
