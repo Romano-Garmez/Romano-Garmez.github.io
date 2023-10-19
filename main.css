@@ -83,12 +83,12 @@ p {
   /* each individual box inside the grid */
   padding: 20px;
   background-color: #07070A;
-  height: fit-content;
   display: block;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   overflow: hidden;
+  height: auto;
 }
 
 .box:hover {
@@ -182,13 +182,17 @@ div .container {
   height: 100%;
 }
 
-#about-me-tiles-1{
-height: auto;
-}
-#about-me-tiles-2{
-  height: auto;
-}
-
 li {
   color: #fff;
+}
+
+#about-me-tiles p {
+  font-size: 2.5vh;
+}
+#about-me-tiles h4 {
+  font-size: 4vh;
+}
+
+code{
+  font-size: 2.5vh;
 }
