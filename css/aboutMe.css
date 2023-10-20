@@ -1,0 +1,27 @@
+#about-me-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+#about-me-container {
+    width: 100%;
+    height: 100%;
+}
+
+#about-me-tiles p {
+    font-size: 2.5vh;
+}
+
+#about-me-tiles h4 {
+    font-size: 4vh;
+}
+
+
+@media only screen and (max-width: 1080px) {
+
+    .container-about-me {
+        grid-template-columns: 40vw 40vw;
+    }
+}

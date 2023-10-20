@@ -22,6 +22,10 @@
     <!--nav bar-->
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="scripts/navbar.js"></script>
+
+    <!--specific to this page-->
+    <link rel="stylesheet" href="css/aboutMe.css">
+    <link rel="stylesheet" href="css/grid.css">
 </head>
 
 <body>
@@ -29,43 +33,42 @@
     <div id="nav-placeholder"></div>
 
     <div id="body">
-        <div id="vertical-list">
-            <div class="container container-about-me">
-                <h1 class="centered-text">Roman Garms: About Me</h1>
+        <div class="container container-about-me">
+            <h1 class="centered-text">Roman Garms: About Me</h1>
+            <br>
+            <div class="box" id="about-me-tiles-1">
+                <div id="about-me-container">
+                    <img id="about-me-img" src="images/PFP Shoulder Cat.jpg" />
+                </div>
+            </div>
+            <div class="box" id="about-me-tiles">
+                <h4>Who I Am</h4>
+                <p> My name is Roman Garms, a Computer Science major going to University of California Santa Cruz.
+                    I'm
+                    interested in
+                    computers, cars, photos and videos.
+                </p>
                 <br>
-                <div class="box" id="about-me-tiles-1">
-                    <div id="about-me-container">
-                        <img id="about-me-img" src="images/PFP Shoulder Cat.jpg" />
-                    </div>
-                </div>
-                <div class="box" id="about-me-tiles">
-                    <h4>Who I Am</h4>
-                    <p> My name is Roman Garms, a Computer Science major going to University of California Santa Cruz.
-                        I'm
-                        interested in
-                        computers, cars, photos and videos.
-                    </p>
-                    <br>
 
-                </div>
-                <div class="box" id="about-me-tiles">
-                    <h4>Some of my favorite projects</h4>
-                    <p>I've run Doom on a drone controller, built a web app to show my Spotify status on a Raspberry pi,
-                        and built a clone of the TE OP-1's tombola for the TE OP-Z</p>
-                </div>
-                <div class="box" id="about-me-tiles">
-                    <h4>I've been writing code with</h4>
-                    <ul>
-                        <li><code> Java </code></li>
-                        <li><code> Python </code></li>
-                        <li><code> C# </code></li>
-                        <li><code> Javascript </code></li>
-                        <li><code> C </code></li>
-                    </ul>
-                </div>
+            </div>
+            <div class="box" id="about-me-tiles">
+                <h4>Some of my favorite projects</h4>
+                <p>I've run Doom on a drone controller, built a web app to show my Spotify status on a Raspberry pi,
+                    and built a clone of the TE OP-1's tombola for the TE OP-Z</p>
+            </div>
+            <div class="box" id="about-me-tiles">
+                <h4>I've been writing code with</h4>
+                <ul>
+                    <li><code> Java </code></li>
+                    <li><code> Python </code></li>
+                    <li><code> C# </code></li>
+                    <li><code> Javascript </code></li>
+                    <li><code> C </code></li>
+                </ul>
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
