@@ -6,8 +6,8 @@
   color: #262626;
 }
 
-.navbar ul li a:hover {
-  color: #fff;
+.active, .navbar ul li a:hover {
+  color: #FFF !important;
 }
 
 a {
@@ -22,9 +22,17 @@ body {
   background-color: #262626;
 }
 
+li {
+  color: #fff;
+}
+
+code {
+  font-size: 2.5vh;
+}
+
 .navbar-brand {
   font-size: xx-large;
-  color: #262626 !important;
+  color: #262626;
 }
 
 h1 {
@@ -159,6 +167,7 @@ div .container {
   .container {
     grid-template-columns: 45vw 45vw;
   }
+
   .container-about-me {
     grid-template-columns: 40vw 40vw;
   }
@@ -185,10 +194,6 @@ div .container {
   height: 100%;
 }
 
-li {
-  color: #fff;
-}
-
 #about-me-tiles p {
   font-size: 2.5vh;
 }
@@ -197,6 +202,3 @@ li {
   font-size: 4vh;
 }
 
-code {
-  font-size: 2.5vh;
-}
