@@ -15,3 +15,10 @@
 #sidebar-links:hover {
     color: #ffffff;
 }
+
+@media only screen and (max-width: 1080px) {
+    #sidebar {
+        display: none;
+    }
+
+}

@@ -73,18 +73,6 @@ p {
   border-radius: 25px;
 }
 
-/*mobile*/
-@media only screen and (max-width: 1080px) {
-  #sidebar {
-    display: none;
-  }
-
-  .container {
-    grid-template-columns: 45vw 45vw;
-    width: 100vw;
-  }
-}
-
 .centered {
   display: block;
   margin: auto;
