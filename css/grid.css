@@ -12,8 +12,11 @@
 }
 
 .container-single {
-  margin: 20px 0px;
-  display: grid;
+  grid-template-columns: 73vw;
+}
+
+.container-mini {
+  grid-template-columns: 17.5vw 17.5vw 17.5vw 17.5vw;
 }
 
 .box {
@@ -68,6 +71,14 @@ div .container {
 @media only screen and (max-width: 1080px) {
   .container {
     grid-template-columns: 45vw 45vw;
+  }
+
+  .container-single {
+    grid-template-columns: 91vw;
+  }
+
+  .container-mini {
+    grid-template-columns: 22.5vw 22.5vw 22.5vw 22.5vw;
   }
 
   #body {
