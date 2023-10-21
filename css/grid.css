@@ -3,20 +3,18 @@
   margin: 20px 0px;
 
   display: grid;
-  grid-template-columns: 36vw 36vw;
+  grid-template-columns: 49.5% 49.5%;
   grid-row: auto auto;
-  grid-column-gap: 1vw;
-  grid-row-gap: 1vh;
-
-  width: 75vw;
+  grid-column-gap: 1%;
+  grid-row-gap: 1%;
 }
 
 .container-single {
-  grid-template-columns: 73vw;
+  grid-template-columns: 100%;
 }
 
 .container-mini {
-  grid-template-columns: 17.5vw 17.5vw 17.5vw 17.5vw;
+  grid-template-columns: 24.25% 24.25% 24.25% 24.25%;
 }
 
 .box {
