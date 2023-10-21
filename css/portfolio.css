@@ -16,6 +16,21 @@
     color: #ffffff;
 }
 
+.container a {
+    /* Grey background color */
+    color: #eee;
+    /* Black text color */
+    display: block;
+    /* Make the links appear below each other */
+
+    /* Add some padding */
+    text-decoration: none;
+    /* Remove underline from links */
+    line-height: 30px;
+    width: 100%;
+    padding: 12px;
+}
+
 @media only screen and (max-width: 1080px) {
     #sidebar {
         display: none;

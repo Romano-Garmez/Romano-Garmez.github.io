@@ -42,16 +42,12 @@
 }
 
 .container a {
-
   /* Grey background color */
   color: #eee;
   /* Black text color */
   display: block;
   /* Make the links appear below each other */
 
-  padding-top: 12px;
-  padding-left: 12px;
-  padding-right: 12px;
   /* Add some padding */
   text-decoration: none;
   /* Remove underline from links */
@@ -59,10 +55,11 @@
   width: 100%;
 }
 
-div .container {
+div .container{
   /* fix scaling on thin screens */
   --bs-gutter-x: 2vw;
 }
+
 
 .preview-image {
   width: 100%;
@@ -78,7 +75,7 @@ div .container {
   }
 
   .container-mini {
-    grid-template-columns: 22.5vw 22.5vw 22.5vw 22.5vw;
+    grid-template-columns: 22vw 22vw 22vw 22vw;
   }
 
   #body {
