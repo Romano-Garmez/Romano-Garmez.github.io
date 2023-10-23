@@ -7,6 +7,8 @@
   grid-row: auto auto;
   grid-column-gap: 1%;
   grid-row-gap: 1%;
+
+  grid-auto-rows: 1fr;
 }
 
 .container-single {
@@ -15,6 +17,22 @@
 
 .container-mini {
   grid-template-columns: 24.25% 24.25% 24.25% 24.25%;
+}
+
+.container a {
+  display: grid;
+  /* Make the links appear below each other */
+
+  /* Add some padding */
+  text-decoration: none;
+  /* Remove underline from links */
+  line-height: 30px;
+
+}
+
+div .container {
+  /* fix scaling on thin screens */
+  --bs-gutter-x: 2vw;
 }
 
 .box {
@@ -38,26 +56,6 @@
   margin-bottom: 15px;
 
 }
-
-.container a {
-  /* Grey background color */
-  color: #eee;
-  /* Black text color */
-  display: block;
-  /* Make the links appear below each other */
-
-  /* Add some padding */
-  text-decoration: none;
-  /* Remove underline from links */
-  line-height: 30px;
-  width: 100%;
-}
-
-div .container{
-  /* fix scaling on thin screens */
-  --bs-gutter-x: 2vw;
-}
-
 
 .preview-image {
   width: 100%;

@@ -4,12 +4,28 @@
     object-fit: cover;
 }
 
+#about-me-tiles {
+    height: auto;
+}
+
 #about-me-tiles p {
     font-size: 2.5vh;
 }
 
 #about-me-tiles h4 {
     font-size: 4vh;
+}
+
+.container-about-me {
+    /* 2x2 grid system */
+    margin: 20px 0px;
+
+    display: grid;
+    grid-template-columns: 49.5% 49.5%;
+    grid-row: auto auto;
+    grid-column-gap: 1%;
+    grid-row-gap: 1%;
+    grid-auto-rows: auto !important;
 }
 
 #vertical-list {
