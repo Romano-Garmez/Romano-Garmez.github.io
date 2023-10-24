@@ -1,8 +1,8 @@
 var favicon_images = [
-    'favicons/favicon1.png',
-    'favicons/favicon2.png',
-    'favicons/favicon3.png',
-    'favicons/favicon4.png'
+    '/favicons/favicon1.png',
+    '/favicons/favicon2.png',
+    '/favicons/favicon3.png',
+    '/favicons/favicon4.png'
 ],
     image_counter = 0; // To keep track of the current image
 
