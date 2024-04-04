@@ -35,7 +35,7 @@
 @media only screen and (max-width: 1080px) {
 
     .container-about-me {
-        grid-template-columns: 40vw 40vw;
+        grid-template-columns: 45vw 45vw;
     }
 
     #about-me-tiles p {
