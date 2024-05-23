@@ -1,13 +1,8 @@
-<!-- js-dos style sheet -->
-<link rel="stylesheet" href="https://v8.js-dos.com/latest/js-dos.css">
-
-<!-- js-dos -->
-<script src="https://v8.js-dos.com/latest/js-dos.js"></script>
-
-<div id="dos"></div>
-
-<script>
-    Dos(document.getElementById("dos"), {
-        url: "https://romangarms.com/doom-resources/DOOM.jsdos",
-    });
-</script>
+<div id="dosbox"></div>
+<script type="text/javascript" src="/scripts/js-dos.com_cdn_js-dos-api.js"></script>
+<script
+  type="text/javascript">       
+  var dosbox = new Dosbox({ 
+    id: "dosbox", 
+    onload: function (dosbox) { 
+      dosbox.run("https://js-dos.com/cdn/upload/DOOM-@evilution.zip", "./DOOM/DOOM.EXE"); }, onrun: function (dosbox, app) { console.log("App '" + app + "' is runned"); } });     </script>
