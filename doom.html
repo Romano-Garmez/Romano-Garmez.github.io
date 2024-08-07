@@ -1,10 +1,11 @@
 <div id="dosbox"></div>
 <script type="text/javascript" src="/scripts/js-dos.com_cdn_js-dos-api.js"></script>
-<script
-  type="text/javascript">       
-  var dosbox = new Dosbox({ 
-    id: "dosbox", 
-    onload: function (dosbox) { 
+<script type="text/javascript">
+  var dosbox = new Dosbox({
+    id: "dosbox",
+    onload: function (dosbox) {
       //doom-box has light speaker static noise
       //the_ultimate_doom blows out your ears
-      dosbox.run("https://romangarms.com/doom-resources/doom-box.zip", "DOOM.EXE"); }, onrun: function (dosbox, app) { console.log("App '" + app + "' is runned"); } });     </script>
+      dosbox.run("https://romangarms.com/doom-resources/doom-box.zip", "DOOM.EXE");
+    }, onrun: function (dosbox, app) { console.log("App '" + app + "' is runned"); }
+  });     </script>

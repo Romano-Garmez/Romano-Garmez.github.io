@@ -45,6 +45,7 @@ div .container {
   border-radius: 10px;
   overflow: hidden;
   height: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
 }
 
 .box:hover {
