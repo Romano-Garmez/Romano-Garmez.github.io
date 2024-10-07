@@ -1,4 +1,4 @@
-var favicon_images = [
+let favicon_images = [
     '/favicons/favicon1.png',
     '/favicons/favicon2.png',
     '/favicons/favicon3.png',

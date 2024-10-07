@@ -5,6 +5,7 @@ a {
 
 p {
   font-size: large;
+  color: #FFFFFF;
 }
 
 body {
@@ -32,10 +33,6 @@ h3 {
 }
 
 h4 {
-  color: #FFFFFF;
-}
-
-p {
   color: #FFFFFF;
 }
 
