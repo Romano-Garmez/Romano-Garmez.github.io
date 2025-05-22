@@ -1,4 +1,13 @@
 /*default*/
+:root {
+    --main-black: #07070A;
+    --accent-yellow: #EDAE49;
+    --accent-red: #D1495B;
+    --accent-blue: #00798C;
+    --accent-gray: #24272b;
+
+}
+
 a {
   font-size: x-large;
 }

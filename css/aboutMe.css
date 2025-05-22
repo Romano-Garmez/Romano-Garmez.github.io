@@ -1,44 +1,140 @@
-#about-me-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-#about-me-tiles {
-    height: auto;
-}
-
-#about-me-tiles p {
-    font-size: 2.5vh;
-}
-
-#about-me-tiles h4 {
-    font-size: 4vh;
-}
-
-.container-about-me {
-    /* 2x2 grid system */
-    margin: 20px 0px;
-
+/* === GRID LAYOUTS === */
+.tile-grid {
     display: grid;
-    grid-template-columns: 49.5% 49.5%;
-    grid-row: auto auto;
-    grid-column-gap: 1%;
-    grid-row-gap: 1%;
-    grid-auto-rows: auto !important;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 16px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-@media only screen and (max-width: 1080px) {
+/* Two-column fixed setup */
+.tile-grid.two-column-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-    .container-about-me {
-        grid-template-columns: 45vw 45vw;
+/* Four-column layout for large screens */
+@media (min-width: 800px) {
+    .tile-grid.tile-4col {
+        grid-template-columns: repeat(4, 1fr);
     }
+}
 
-    #about-me-tiles p {
-        font-size: 2vh;
+/* Two-column layout collapses to one column on mobile */
+@media (max-width: 799px) {
+    .tile-grid.two-column-layout {
+        grid-template-columns: 1fr;
     }
+}
 
-    #about-me-tiles h4 {
-        font-size: 3vh;
+/* === TILE STYLES === */
+.tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #1e1e1e;
+    padding: 16px;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.tile-full {
+    grid-column: 1 / -1;
+}
+
+.tile-compact {
+    padding: 12px;
+    font-size: 0.9rem;
+}
+
+/* Sizing for large and small tiles on desktop */
+@media (min-width: 800px) {
+    .tile-large {
+        grid-column: span 2;
+        grid-row: span 2;
     }
+    .tile-small {
+        grid-column: span 1;
+    }
+}
+
+/* === IMAGE STYLES === */
+.tile-image {
+    grid-column: span 1;
+    grid-row: span 1;
+    overflow: hidden;
+    padding: 0;
+}
+
+.tile-image img {
+    object-fit: cover;
+    border-radius: 8px;
+    height: auto;
+    width: 50%;
+}
+
+/* Responsive image sizing */
+@media (max-width: 799px) {
+    .tile-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+}
+
+/* === TWO-COLUMN LAYOUT NESTED STYLES === */
+.two-column-layout .nested-column {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+}
+
+.two-column-layout .half-height {
+    height: 100%;
+}
+
+/* Tall tile spans both rows on desktop */
+@media (min-width: 800px) {
+    .two-column-layout .tile-tall {
+        grid-row: span 2;
+    }
+}
+
+/* On mobile, nested column and tall tile adjust */
+@media (max-width: 799px) {
+    .two-column-layout .nested-column {
+        grid-template-rows: auto auto;
+    }
+    .two-column-layout .tile-tall {
+        grid-row: auto;
+    }
+}
+
+/* === TYPOGRAPHY === */
+h1 {
+    font-size: 2rem;
+}
+
+h4 {
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+}
+
+p, ul {
+    font-size: 1.25rem;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+code {
+    background: #2b2b2b;
+    padding: 2px 4px;
+    border-radius: 4px;
 }
