@@ -2,7 +2,7 @@
   /* 2x2 grid system */
 
   /* for navbar */
-  margin-top: 5%;
+  margin-top: 75px;
   display: grid;
   grid-template-columns: 49.5% 49.5%;
   grid-row: auto auto;

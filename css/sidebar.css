@@ -1,13 +1,12 @@
 #sidebar {
-
-
     max-width: 500px;
     width: 25%;
 
     background-color: var(--main-black);
     padding: 1%;
 
-    margin-top: 5%;
+    /*for navbar*/
+    margin-top: 75px;
     border-radius: 10px;
 
     height: 100%;
