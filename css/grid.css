@@ -1,6 +1,6 @@
 .container {
   /* 2x2 grid system */
-  margin: 0px 0px;
+
 
   display: grid;
   grid-template-columns: 49.5% 49.5%;

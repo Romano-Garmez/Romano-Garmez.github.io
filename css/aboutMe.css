@@ -1,3 +1,10 @@
+main {
+  max-width: 1200px; /* or 1000px, or whatever feels comfortable */
+  margin: 0 auto;     /* center it horizontally */
+  padding: 0 20px;    /* optional horizontal padding */
+}
+
+
 /* === GRID LAYOUTS === */
 .tile-grid {
     display: grid;
