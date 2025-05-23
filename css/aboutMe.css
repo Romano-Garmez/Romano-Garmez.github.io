@@ -89,7 +89,8 @@ main {
     object-fit: cover;
     border-radius: 8px;
     height: auto;
-    width: 49.6%;
+    width: 50%;
+    padding: 1%;
 }
 
 /* Responsive image sizing */
