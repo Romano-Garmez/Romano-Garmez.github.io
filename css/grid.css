@@ -1,7 +1,8 @@
 .container {
   /* 2x2 grid system */
-  margin: 20px 0px;
 
+  /* for navbar */
+  margin-top: 5%;
   display: grid;
   grid-template-columns: 49.5% 49.5%;
   grid-row: auto auto;

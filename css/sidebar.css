@@ -1,0 +1,60 @@
+#sidebar {
+
+
+    max-width: 500px;
+    width: 25%;
+
+    background-color: var(--main-black);
+    padding: 1%;
+
+    margin-top: 5%;
+    border-radius: 10px;
+
+    height: 100%;
+}
+
+#sidebar-bio {
+    background-color: var(--accent-gray);
+    padding: 5%;
+    border-radius: 10px;
+    margin: 5% 0;
+}
+
+.sidebar-icon {
+    width: 15%;
+    height: auto;
+}
+
+#sidebar-links {
+    color: #D1495B;
+    font-size: x-large;
+
+    background-color: var(--accent-gray);
+    padding: 5%;
+    border-radius: 10px;
+    margin: 5% 0;
+}
+
+#sidebar-links img {
+    filter: invert(44%) sepia(30%) saturate(1938%) hue-rotate(311deg) brightness(85%) contrast(93%);
+    padding-bottom: 2%;
+    width: 10%;
+    z-index: 1;
+
+}
+
+#sidebar-links a {
+    text-decoration: none;
+
+    font-size: 1.5vh;
+}
+
+#sidebar-links a:hover {
+    color: #ffffff;
+}
+
+@media only screen and (max-width: 1080px) {
+    #sidebar {
+        display: none;
+    }
+}

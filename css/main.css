@@ -1,4 +1,13 @@
 /*default*/
+:root {
+  --main-black: #07070A;
+  --accent-yellow: #EDAE49;
+  --accent-red: #D1495B;
+  --accent-blue: #00798C;
+  --accent-gray: #24272b;
+
+}
+
 a {
   font-size: x-large;
 }
@@ -43,8 +52,22 @@ h4 {
   justify-content: center;
 }
 
+#nav-placeholder {
+  position: fixed;
+  top: 0;
+
+  /*fix for sidebar icons using filter property*/
+  z-index: 2;
+}
+
 /*navbar*/
 .navbar {
+  position: fixed;
+  width: 100%;
+
+  /*fix for sidebar icons using filter property*/
+  z-index: 2;
+
   background-color: #EDAE49;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
 }
