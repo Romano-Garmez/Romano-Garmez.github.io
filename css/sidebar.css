@@ -1,11 +1,14 @@
 #sidebar {
 
 
+    max-width: 500px;
     width: 25%;
 
     background-color: var(--main-black);
     padding: 1%;
     border-radius: 10px;
+
+    height: 100%;
 }
 
 #sidebar-bio {
@@ -32,7 +35,8 @@
 
 #sidebar-links img{
     filter: invert(44%) sepia(30%) saturate(1938%) hue-rotate(311deg) brightness(85%) contrast(93%);
-
+    padding-bottom: 2%;
+    width: 10%;
 
 }
 
