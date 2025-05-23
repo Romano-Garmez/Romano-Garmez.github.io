@@ -1,7 +1,13 @@
 main {
-  max-width: 1200px; /* or 1000px, or whatever feels comfortable */
-  margin: 0 auto;     /* center it horizontally */
-  padding: 0 20px;    /* optional horizontal padding */
+    max-width: 1200px;
+    /* or 1000px, or whatever feels comfortable */
+    margin: 0 auto;
+    /* center it horizontally */
+    padding: 0 20px;
+    /* optional horizontal padding */
+
+    /* for navbar */
+    margin-top: 5%;
 }
 
 
@@ -48,6 +54,8 @@ main {
     border-radius: 8px;
     color: white;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+    height: auto;
 }
 
 .tile-full {
@@ -65,6 +73,7 @@ main {
         grid-column: span 2;
         grid-row: span 2;
     }
+
     .tile-small {
         grid-column: span 1;
     }
@@ -72,8 +81,6 @@ main {
 
 /* === IMAGE STYLES === */
 .tile-image {
-    grid-column: span 1;
-    grid-row: span 1;
     overflow: hidden;
     padding: 0;
 }
@@ -82,7 +89,7 @@ main {
     object-fit: cover;
     border-radius: 8px;
     height: auto;
-    width: 50%;
+    width: 49.6%;
 }
 
 /* Responsive image sizing */
@@ -99,6 +106,7 @@ main {
     display: grid;
     grid-template-rows: 1fr 1fr;
     gap: 16px;
+
 }
 
 .two-column-layout .half-height {
@@ -117,6 +125,7 @@ main {
     .two-column-layout .nested-column {
         grid-template-rows: auto auto;
     }
+
     .two-column-layout .tile-tall {
         grid-row: auto;
     }
@@ -132,7 +141,8 @@ h4 {
     font-size: 1.2rem;
 }
 
-p, ul {
+p,
+ul {
     font-size: 1.25rem;
 }
 
@@ -144,4 +154,11 @@ code {
     background: #2b2b2b;
     padding: 2px 4px;
     border-radius: 4px;
+}
+
+.social-links {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: white;
+    border-radius: 25%;
 }

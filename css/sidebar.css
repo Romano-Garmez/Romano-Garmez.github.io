@@ -6,6 +6,8 @@
 
     background-color: var(--main-black);
     padding: 1%;
+
+    margin-top: 5%;
     border-radius: 10px;
 
     height: 100%;
@@ -33,17 +35,18 @@
     margin: 5% 0;
 }
 
-#sidebar-links img{
+#sidebar-links img {
     filter: invert(44%) sepia(30%) saturate(1938%) hue-rotate(311deg) brightness(85%) contrast(93%);
     padding-bottom: 2%;
     width: 10%;
+    z-index: 1;
 
 }
 
 #sidebar-links a {
     text-decoration: none;
 
-    font-size : 1.5vh;
+    font-size: 1.5vh;
 }
 
 #sidebar-links a:hover {
