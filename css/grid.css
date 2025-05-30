@@ -48,10 +48,12 @@ div .container {
   overflow: hidden;
   height: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+  transition: transform 0.3s ease;
 }
 
 .box:hover {
   background-color: #00798C;
+  transform: scale(1.01);
 }
 
 .box img {
