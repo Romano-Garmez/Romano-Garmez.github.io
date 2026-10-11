@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { projects } from '../data/projectsData';
+// Written at build time by scripts/fetch-counts.js, so the first paint already
+// has the right numbers and the right order. The lookups below refresh them.
+import bakedCounts from '../data/projectCounts.json';
 import Footer from '../components/Footer';
 import './Projects.css';
 
@@ -12,39 +15,54 @@ const COUNT_TIMEOUT_MS = 5000;
 
 const timedFetch = (url) => fetch(url, { signal: AbortSignal.timeout(COUNT_TIMEOUT_MS) });
 
-// sessionStorage cache shared by the GitHub stars and user count lookups.
-const getCachedCount = (cacheKey) => {
+// A failure is remembered too, for less time. Without this a page that has run
+// into GitHub's rate limit re-fires every request on every reload, which is
+// what keeps the limit pinned at zero instead of letting it recover.
+const FAILURE_CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+
+// Shared by the GitHub stars and user count lookups. Counts are public,
+// slow-moving numbers, so they live in localStorage rather than sessionStorage:
+// a repeat visitor and a second tab then reuse the same cache instead of
+// spending another seven calls against GitHub's hourly limit.
+// Returns undefined for a miss and null for a remembered failure.
+const readCache = (cacheKey) => {
   try {
-    const cachedCount = sessionStorage.getItem(cacheKey);
-    const cacheTimestamp = sessionStorage.getItem(`${cacheKey}_timestamp`);
+    const raw = localStorage.getItem(cacheKey);
+    if (!raw) return undefined;
 
-    if (!cachedCount || !cacheTimestamp) {
-      return null;
+    const { value, expires } = JSON.parse(raw);
+    if (!expires || Date.now() >= expires) {
+      localStorage.removeItem(cacheKey);
+      return undefined;
     }
 
-    // Check if cache is still fresh
-    if (Date.now() - parseInt(cacheTimestamp, 10) < COUNT_CACHE_DURATION) {
-      return parseInt(cachedCount, 10);
-    }
-
-    // Cache expired
-    sessionStorage.removeItem(cacheKey);
-    sessionStorage.removeItem(`${cacheKey}_timestamp`);
-    return null;
-
-  } catch (error) {
-    console.error('Error reading count cache:', error);
-    return null;
+    return value;
+  } catch {
+    // Unreadable or written by an older build; treat it as a miss
+    return undefined;
   }
 };
 
-const cacheCount = (cacheKey, count) => {
+const writeCache = (cacheKey, value, duration) => {
   try {
-    sessionStorage.setItem(cacheKey, count.toString());
-    sessionStorage.setItem(`${cacheKey}_timestamp`, Date.now().toString());
+    localStorage.setItem(cacheKey, JSON.stringify({ value, expires: Date.now() + duration }));
   } catch (error) {
     console.error('Error caching count:', error);
   }
+};
+
+// StrictMode runs effects twice in development, and the cache is only written
+// once a request comes back, so without this every lookup goes out twice and
+// burns twice the rate limit.
+const inFlight = new Map();
+
+const dedupe = (cacheKey, run) => {
+  const existing = inFlight.get(cacheKey);
+  if (existing) return existing;
+
+  const request = run().finally(() => inFlight.delete(cacheKey));
+  inFlight.set(cacheKey, request);
+  return request;
 };
 
 // Helper to get GitHub URL from project
@@ -52,6 +70,20 @@ const getProjectGithubUrl = (project) => {
   if (project.githubUrl) return project.githubUrl;
   if (project.githubUrls && project.githubUrls[0]) return project.githubUrls[0].url;
   return null;
+};
+
+// GitHub allows 60 unauthenticated calls an hour per IP and answers 403 once
+// that runs out. It tells us when the window resets, so wait exactly that long
+// rather than guessing.
+const RATE_LIMIT_CAP = 60 * 60 * 1000;
+
+const backoffFor = (response) => {
+  if (response.status !== 403 && response.status !== 429) return FAILURE_CACHE_DURATION;
+
+  const reset = Number(response.headers.get('x-ratelimit-reset'));
+  if (!reset) return FAILURE_CACHE_DURATION;
+
+  return Math.min(Math.max(reset * 1000 - Date.now(), 0) + 1000, RATE_LIMIT_CAP);
 };
 
 const fetchStars = async (githubUrl) => {
@@ -64,22 +96,30 @@ const fetchStars = async (githubUrl) => {
   const [, owner, repo] = match;
   const cacheKey = `github_stars_${owner}_${repo}`;
 
-  const cached = getCachedCount(cacheKey);
-  if (cached !== null) return cached;
+  const cached = readCache(cacheKey);
+  if (cached !== undefined) return cached;
 
-  try {
-    const response = await timedFetch(`https://api.github.com/repos/${owner}/${repo}`);
-    const data = await response.json();
+  return dedupe(cacheKey, async () => {
+    try {
+      const response = await timedFetch(`https://api.github.com/repos/${owner}/${repo}`);
 
-    if (data.stargazers_count !== undefined) {
-      cacheCount(cacheKey, data.stargazers_count);
-      return data.stargazers_count;
+      if (!response.ok) {
+        writeCache(cacheKey, null, backoffFor(response));
+        return null;
+      }
+
+      const data = await response.json();
+      if (data.stargazers_count !== undefined) {
+        writeCache(cacheKey, data.stargazers_count, COUNT_CACHE_DURATION);
+        return data.stargazers_count;
+      }
+    } catch {
+      // Offline or timed out; will sort by date instead
     }
-  } catch {
-    // Offline, timed out or rate limited; will sort by date instead
-  }
 
-  return null;
+    writeCache(cacheKey, null, FAILURE_CACHE_DURATION);
+    return null;
+  });
 };
 
 // These servers only allow romangarms.com as a CORS origin, so in development
@@ -103,23 +143,29 @@ const fetchUsers = async (userCount) => {
   // Keyed on the canonical URL so the dev proxy doesn't split the cache
   const cacheKey = `user_count_${userCount.url}_${userCount.field}`;
 
-  const cached = getCachedCount(cacheKey);
-  if (cached !== null) return cached;
+  const cached = readCache(cacheKey);
+  if (cached !== undefined) return cached;
 
-  try {
-    const response = await timedFetch(requestUrl(userCount.url));
-    const data = await response.json();
-    const value = data?.[userCount.field];
+  return dedupe(cacheKey, async () => {
+    try {
+      const response = await timedFetch(requestUrl(userCount.url));
 
-    if (typeof value === 'number') {
-      cacheCount(cacheKey, value);
-      return value;
+      if (response.ok) {
+        const data = await response.json();
+        const value = data?.[userCount.field];
+
+        if (typeof value === 'number') {
+          writeCache(cacheKey, value, COUNT_CACHE_DURATION);
+          return value;
+        }
+      }
+    } catch {
+      // Server unreachable or too slow, the badge just stays hidden
     }
-  } catch {
-    // Server unreachable or too slow, the badge just stays hidden
-  }
 
-  return null;
+    writeCache(cacheKey, null, FAILURE_CACHE_DURATION);
+    return null;
+  });
 };
 
 // A project's popularity is its user count when it reports one, and its GitHub
@@ -131,13 +177,33 @@ const fetchProjectCounts = async (project) => {
     project.userCount ? null : fetchStars(getProjectGithubUrl(project)),
   ]);
 
-  return { id: project.id, users, stars };
+  // A lookup that failed falls back to what was baked in rather than blanking
+  // a badge that was fine at build time.
+  const baked = bakedCounts[project.id] ?? {};
+
+  return {
+    id: project.id,
+    users: users ?? baked.users ?? null,
+    stars: stars ?? baked.stars ?? null,
+  };
 };
 
 const getPopularity = (counts, project) => {
   const row = counts[project.id];
   return row?.users ?? row?.stars ?? -1;
 };
+
+// Unknown counts come out as -1 and tie, so they fall through to the date
+// ordering the page used before any of this existed.
+const sortByPopularity = (counts) =>
+  [...projects].sort((a, b) => {
+    const difference = getPopularity(counts, b) - getPopularity(counts, a);
+    if (difference !== 0) {
+      return difference;
+    }
+
+    return new Date(b.date) - new Date(a.date);
+  });
 
 // Badge showing a repository's GitHub stars
 function GitHubStars({ stars }) {
@@ -168,8 +234,8 @@ function UserCount({ count, label }) {
 }
 
 function Projects() {
-  const [sortedProjects, setSortedProjects] = useState(projects);
-  const [counts, setCounts] = useState({});
+  const [sortedProjects, setSortedProjects] = useState(() => sortByPopularity(bakedCounts));
+  const [counts, setCounts] = useState(bakedCounts);
 
   useEffect(() => {
     document.title = 'Projects | Roman Garms';
@@ -204,24 +270,7 @@ function Projects() {
 
       const byId = Object.fromEntries(results.map(result => [result.id, result]));
 
-      // Check if we got any counts at all
-      const hasCounts = results.some(r => r.users !== null || r.stars !== null);
-
-      // Sort based on what data we have
-      const sorted = [...projects].sort((a, b) => {
-        if (hasCounts) {
-          // Sort by popularity (descending), with unknown values at the end
-          const difference = getPopularity(byId, b) - getPopularity(byId, a);
-          if (difference !== 0) {
-            return difference;
-          }
-        }
-
-        // Fall back to date sorting (newer first)
-        return new Date(b.date) - new Date(a.date);
-      });
-
-      setSortedProjects(sorted);
+      setSortedProjects(sortByPopularity(byId));
     };
 
     sortProjects();

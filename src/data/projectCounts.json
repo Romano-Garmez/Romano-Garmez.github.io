@@ -1,0 +1,34 @@
+{
+  "autox-live": {
+    "users": 16,
+    "stars": null
+  },
+  "spotify-recommender": {
+    "users": null,
+    "stars": 1
+  },
+  "concepts-file-viewer": {
+    "users": null,
+    "stars": 1
+  },
+  "opz-sample-manager": {
+    "users": null,
+    "stars": 17
+  },
+  "wherehaveibeen": {
+    "users": null,
+    "stars": 1
+  },
+  "ultimate-tic-tac-toe": {
+    "users": null,
+    "stars": 3
+  },
+  "now-playing": {
+    "users": null,
+    "stars": 8
+  },
+  "videopaks-opz": {
+    "users": null,
+    "stars": 11
+  }
+}
