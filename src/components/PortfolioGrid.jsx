@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { getPostDescription } from '../data/postDescriptions';
+import { resizeBloggerImage } from '../utils/bloggerImages';
 
 // Generate URL-friendly slug from post title (matches Portfolio/PortfolioPost)
 const generateSlug = (title) => {
@@ -10,10 +11,14 @@ const generateSlug = (title) => {
     .replace(/^-|-$/g, '');
 };
 
+// Cards are 300px+ wide, so ask Blogger for something that still looks sharp at
+// 2x DPR instead of whatever small size the post happened to embed.
+const CARD_IMAGE_SIZE = 'w700-h400-c';
+
 const extractImageFromContent = (content) => {
   if (!content) return null;
   const imgMatch = content.match(/<img[^>]+src=["']([^"'>]+)["']/);
-  return imgMatch?.[1] || null;
+  return imgMatch?.[1] ? resizeBloggerImage(imgMatch[1], CARD_IMAGE_SIZE) : null;
 };
 
 // Fallback snippet: strip the post HTML down to plain text and truncate.

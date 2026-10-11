@@ -11,6 +11,9 @@
  * sentence or two so it fits the card cleanly.
  */
 const POST_DESCRIPTIONS = {
+  'an-actually-good-autocross-timing-app-and-it-s-free-autox-live':
+    "A free autocross timing app for iOS: star yourself and your friends, compare runs head-to-head, and get notified the moment new times are published. Apple Watch app included.",
+
   'spotify-song-recommender-using-the-spotify-api-in-2026':
     "A web app that automatically recommends new Spotify songs, and fighting with the limitations of the Spotify API in 2026.",
 

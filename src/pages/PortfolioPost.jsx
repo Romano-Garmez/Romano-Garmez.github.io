@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { BloggerRSSClient, BLOGGER_CONFIG } from '../services/bloggerAPI';
+import { resizeBloggerImage } from '../utils/bloggerImages';
 import { trackView } from '../services/statsService';
 import Footer from '../components/Footer';
 import Comments from '../components/Comments';
@@ -36,23 +37,30 @@ const getPostThumbnail = (postContent) => {
   const doc = parser.parseFromString(postContent, 'text/html');
   const firstImg = doc.querySelector('img');
   if (!firstImg?.src) return null;
-  let imgUrl = firstImg.src;
-  imgUrl = imgUrl.replace(/\/s\d+\//, '/s400/');
-  imgUrl = imgUrl.replace(/=s\d+/, '=s400');
-  imgUrl = imgUrl.replace(/=w\d+-h\d+/, '=w400');
-  return imgUrl;
+  return resizeBloggerImage(firstImg.src, 's400');
 };
 
-// Add IDs to headings in HTML content for scroll targeting
-const addHeadingIds = (htmlContent) => {
+// Prepare the post body: give headings IDs for scroll targeting, and ask
+// Blogger for image sources that hold up on high-DPI screens. Posts often embed
+// at ~150px, which is half what a 2x display needs. The width/height attributes
+// are left alone, so the layout is unchanged -- only the pixels behind it.
+// 300 is tuned to the ~148px these render at; raising it costs real page weight
+// (the phone screenshots here are PNGs: w300 is ~530KB, w600 is ~1.4MB).
+const IN_POST_IMAGE_SIZE = 'w300';
+
+const preparePostBody = (htmlContent) => {
   if (!htmlContent) return '';
 
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlContent, 'text/html');
-  const headings = doc.querySelectorAll('h1, h2, h3, h4');
 
-  headings.forEach((heading, index) => {
+  doc.querySelectorAll('h1, h2, h3, h4').forEach((heading, index) => {
     heading.id = `heading-${index}`;
+  });
+
+  doc.querySelectorAll('img').forEach((img) => {
+    const src = img.getAttribute('src');
+    if (src) img.setAttribute('src', resizeBloggerImage(src, IN_POST_IMAGE_SIZE));
   });
 
   return doc.body.innerHTML;
@@ -115,7 +123,7 @@ function PortfolioPost() {
   }, [post]);
 
   const contentWithIds = useMemo(() => {
-    return post ? addHeadingIds(post.content) : '';
+    return post ? preparePostBody(post.content) : '';
   }, [post]);
 
   // Find related posts based on shared categories
@@ -160,12 +168,7 @@ function PortfolioPost() {
     const firstImg = doc.querySelector('img');
     if (!firstImg?.src) return null;
 
-    // Blogger images have size params like /s320/ or =s320 - replace with larger size
-    let imgUrl = firstImg.src;
-    imgUrl = imgUrl.replace(/\/s\d+\//, '/s1600/');
-    imgUrl = imgUrl.replace(/=s\d+/, '=s1600');
-    imgUrl = imgUrl.replace(/=w\d+-h\d+/, '=w1600');
-    return imgUrl;
+    return resizeBloggerImage(firstImg.src, 's1600');
   }, [post]);
 
   // Preload hero image and track loading state

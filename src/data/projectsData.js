@@ -1,5 +1,26 @@
 export const projects = [
   {
+    id: "autox-live",
+    title: "AutoX Live",
+    description: "Free iOS app for autocross timing and results, covering Evergreen Speedway, the Golden Gate Lotus Club, and every event on MyLaps Speedhive. Star yourself and your friends for head-to-head run comparisons and gap charts, get notified the moment new times post, and build your own public or invite-only leaderboards. Apple Watch app included; backed by a FastAPI server wrapping the Speedhive API.",
+    image: "/images/projects/autox.jpg",
+    liveUrl: "https://autox.romangarms.com/",
+    githubUrl: "https://github.com/romangarms/Evergreen-AutoX-App",
+    downloadUrl: "https://testflight.apple.com/join/txjt9rzr",
+    downloadLabel: "Join the TestFlight",
+    tags: ["iOS", "Cars", "Programming"],
+    date: "2026-08-10",
+    status: "Active",
+    blogPostUrl: "https://romangarms.com/portfolio/an-actually-good-autocross-timing-app-and-it-s-free-autox-live",
+    // This one lives on the App Store, not on GitHub, so the card ranks and
+    // badges it by how many phones have installed it rather than by stars.
+    userCount: {
+      url: "https://autox.romangarms.com/api/stats",
+      field: "devices",
+      label: "users"
+    }
+  },
+  {
     id: "spotify-recommender",
     title: "Spotify Song Recommender",
     description: "Generates Spotify playlists based on user input—either by providing an existing public playlist or describing music preferences in text. Uses AI to understand musical preferences and create personalized recommendations.",
@@ -9,7 +30,7 @@ export const projects = [
     downloadUrl: null,
     tags: ["AI", "Music", "Spotify API"],
     date: "2026-02-07",
-    status: "Active",
+    status: "Maintained",
     blogPostUrl: "https://romangarms.com/portfolio/spotify-song-recommender-using-the-spotify-api-in-2026"
   },
   {

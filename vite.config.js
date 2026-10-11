@@ -26,6 +26,14 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/blogger/, '/feeds/posts/default'),
         secure: true
+      },
+      // The AutoX server only allows romangarms.com as a CORS origin, so in
+      // development the user count request goes through here instead.
+      '/api/autox': {
+        target: 'https://autox.romangarms.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/autox/, ''),
+        secure: true
       }
     }
   }

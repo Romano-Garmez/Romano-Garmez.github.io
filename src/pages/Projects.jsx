@@ -4,100 +4,144 @@ import Footer from '../components/Footer';
 import './Projects.css';
 
 // Cache configuration (matches blog post cache duration)
-const GITHUB_CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 hours
+const COUNT_CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 hours
 
-// Helper functions for GitHub stars caching
-const getGitHubCacheKey = (owner, repo) => `github_stars_${owner}_${repo}`;
-const getGitHubCacheTimestampKey = (owner, repo) => `github_stars_${owner}_${repo}_timestamp`;
+// A badge is a nice-to-have, so give up quickly rather than leaving the page
+// waiting on the browser's own (much longer) timeout when a server is down.
+const COUNT_TIMEOUT_MS = 5000;
 
-const getCachedStars = (owner, repo) => {
+const timedFetch = (url) => fetch(url, { signal: AbortSignal.timeout(COUNT_TIMEOUT_MS) });
+
+// sessionStorage cache shared by the GitHub stars and user count lookups.
+const getCachedCount = (cacheKey) => {
   try {
-    const cacheKey = getGitHubCacheKey(owner, repo);
-    const timestampKey = getGitHubCacheTimestampKey(owner, repo);
+    const cachedCount = sessionStorage.getItem(cacheKey);
+    const cacheTimestamp = sessionStorage.getItem(`${cacheKey}_timestamp`);
 
-    const cachedStars = sessionStorage.getItem(cacheKey);
-    const cacheTimestamp = sessionStorage.getItem(timestampKey);
-
-    if (!cachedStars || !cacheTimestamp) {
+    if (!cachedCount || !cacheTimestamp) {
       return null;
     }
 
-    const now = Date.now();
-    const timestamp = parseInt(cacheTimestamp, 10);
-
     // Check if cache is still fresh
-    if (now - timestamp < GITHUB_CACHE_DURATION) {
-      return parseInt(cachedStars, 10);
+    if (Date.now() - parseInt(cacheTimestamp, 10) < COUNT_CACHE_DURATION) {
+      return parseInt(cachedCount, 10);
     }
 
     // Cache expired
     sessionStorage.removeItem(cacheKey);
-    sessionStorage.removeItem(timestampKey);
+    sessionStorage.removeItem(`${cacheKey}_timestamp`);
     return null;
 
   } catch (error) {
-    console.error('Error reading GitHub stars cache:', error);
+    console.error('Error reading count cache:', error);
     return null;
   }
 };
 
-const cacheStars = (owner, repo, stars) => {
+const cacheCount = (cacheKey, count) => {
   try {
-    const cacheKey = getGitHubCacheKey(owner, repo);
-    const timestampKey = getGitHubCacheTimestampKey(owner, repo);
-
-    sessionStorage.setItem(cacheKey, stars.toString());
-    sessionStorage.setItem(timestampKey, Date.now().toString());
+    sessionStorage.setItem(cacheKey, count.toString());
+    sessionStorage.setItem(`${cacheKey}_timestamp`, Date.now().toString());
   } catch (error) {
-    console.error('Error caching GitHub stars:', error);
+    console.error('Error caching count:', error);
   }
 };
 
-// Component to fetch and display GitHub stars
-function GitHubStars({ githubUrl }) {
-  const [stars, setStars] = useState(null);
-  const [loading, setLoading] = useState(true);
+// Helper to get GitHub URL from project
+const getProjectGithubUrl = (project) => {
+  if (project.githubUrl) return project.githubUrl;
+  if (project.githubUrls && project.githubUrls[0]) return project.githubUrls[0].url;
+  return null;
+};
 
-  useEffect(() => {
-    if (!githubUrl) {
-      setLoading(false);
-      return;
+const fetchStars = async (githubUrl) => {
+  if (!githubUrl) return null;
+
+  // Extract owner and repo from GitHub URL
+  const match = githubUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
+  if (!match) return null;
+
+  const [, owner, repo] = match;
+  const cacheKey = `github_stars_${owner}_${repo}`;
+
+  const cached = getCachedCount(cacheKey);
+  if (cached !== null) return cached;
+
+  try {
+    const response = await timedFetch(`https://api.github.com/repos/${owner}/${repo}`);
+    const data = await response.json();
+
+    if (data.stargazers_count !== undefined) {
+      cacheCount(cacheKey, data.stargazers_count);
+      return data.stargazers_count;
     }
+  } catch {
+    // Offline, timed out or rate limited; will sort by date instead
+  }
 
-    // Extract owner and repo from GitHub URL
-    const match = githubUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
-    if (!match) {
-      setLoading(false);
-      return;
+  return null;
+};
+
+// These servers only allow romangarms.com as a CORS origin, so in development
+// the request goes through the matching Vite proxy instead (vite.config.js).
+const DEV_PROXIES = {
+  'https://autox.romangarms.com': '/api/autox',
+};
+
+const requestUrl = (url) => {
+  if (!import.meta.env.DEV) return url;
+
+  const origin = Object.keys(DEV_PROXIES).find(o => url.startsWith(o));
+  return origin ? url.replace(origin, DEV_PROXIES[origin]) : url;
+};
+
+// Read a live user count from the project's own API (see the `userCount` field
+// in projectsData). The endpoint answers aggregate counts only.
+const fetchUsers = async (userCount) => {
+  if (!userCount) return null;
+
+  // Keyed on the canonical URL so the dev proxy doesn't split the cache
+  const cacheKey = `user_count_${userCount.url}_${userCount.field}`;
+
+  const cached = getCachedCount(cacheKey);
+  if (cached !== null) return cached;
+
+  try {
+    const response = await timedFetch(requestUrl(userCount.url));
+    const data = await response.json();
+    const value = data?.[userCount.field];
+
+    if (typeof value === 'number') {
+      cacheCount(cacheKey, value);
+      return value;
     }
+  } catch {
+    // Server unreachable or too slow, the badge just stays hidden
+  }
 
-    const [, owner, repo] = match;
+  return null;
+};
 
-    // Check cache first
-    const cachedStars = getCachedStars(owner, repo);
-    if (cachedStars !== null) {
-      setStars(cachedStars);
-      setLoading(false);
-      return;
-    }
+// A project's popularity is its user count when it reports one, and its GitHub
+// stars otherwise. An app that lives on the App Store rather than on GitHub is
+// measured by the people using it, not by a star count that never reflected it.
+const fetchProjectCounts = async (project) => {
+  const [users, stars] = await Promise.all([
+    fetchUsers(project.userCount),
+    project.userCount ? null : fetchStars(getProjectGithubUrl(project)),
+  ]);
 
-    // Fetch repository data from GitHub API
-    fetch(`https://api.github.com/repos/${owner}/${repo}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.stargazers_count !== undefined) {
-          const starCount = data.stargazers_count;
-          setStars(starCount);
-          cacheStars(owner, repo, starCount);
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, [githubUrl]);
+  return { id: project.id, users, stars };
+};
 
-  if (loading || stars === null) return null;
+const getPopularity = (counts, project) => {
+  const row = counts[project.id];
+  return row?.users ?? row?.stars ?? -1;
+};
+
+// Badge showing a repository's GitHub stars
+function GitHubStars({ stars }) {
+  if (stars === null || stars === undefined) return null;
 
   return (
     <span className="github-stars">
@@ -109,47 +153,23 @@ function GitHubStars({ githubUrl }) {
   );
 }
 
-// Helper to get GitHub URL from project
-const getProjectGithubUrl = (project) => {
-  if (project.githubUrl) return project.githubUrl;
-  if (project.githubUrls && project.githubUrls[0]) return project.githubUrls[0].url;
-  return null;
-};
+// Badge showing how many people use the project
+function UserCount({ count, label }) {
+  if (count === null || count === undefined) return null;
 
-// Fetch stars for a single project
-const fetchProjectStars = async (project) => {
-  const githubUrl = getProjectGithubUrl(project);
-  if (!githubUrl) return { project, stars: null };
-
-  const match = githubUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
-  if (!match) return { project, stars: null };
-
-  const [, owner, repo] = match;
-
-  // Check cache first
-  const cachedStars = getCachedStars(owner, repo);
-  if (cachedStars !== null) {
-    return { project, stars: cachedStars };
-  }
-
-  // Try to fetch from API
-  try {
-    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
-    const data = await response.json();
-
-    if (data.stargazers_count !== undefined) {
-      cacheStars(owner, repo, data.stargazers_count);
-      return { project, stars: data.stargazers_count };
-    }
-  } catch (error) {
-    // Fetch failed, will sort by date instead
-  }
-
-  return { project, stars: null };
-};
+  return (
+    <span className="project-users">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 8a3 3 0 100-6 3 3 0 000 6zM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 00-11.215 0c-.22.578.254 1.139.872 1.139h9.47z" />
+      </svg>
+      {count.toLocaleString()} {label}
+    </span>
+  );
+}
 
 function Projects() {
   const [sortedProjects, setSortedProjects] = useState(projects);
+  const [counts, setCounts] = useState({});
 
   useEffect(() => {
     document.title = 'Projects | Roman Garms';
@@ -159,31 +179,41 @@ function Projects() {
   }, []);
 
   useEffect(() => {
-    // Fetch stars for all projects and sort
+    let cancelled = false;
+
+    // Each project's badge lands as soon as its own lookup returns, so one
+    // unreachable server can't hold the others up. Only the re-sort waits for
+    // the whole set, and every lookup is capped by COUNT_TIMEOUT_MS.
     const sortProjects = async () => {
-      const projectsWithStars = await Promise.allSettled(
-        projects.map(project => fetchProjectStars(project))
+      const settled = await Promise.allSettled(
+        projects.map(async (project) => {
+          const result = await fetchProjectCounts(project);
+          if (!cancelled) {
+            setCounts(previous => ({ ...previous, [project.id]: result }));
+          }
+          return result;
+        })
       );
 
+      if (cancelled) return;
+
       // Extract successful results
-      const results = projectsWithStars
+      const results = settled
         .filter(result => result.status === 'fulfilled')
         .map(result => result.value);
 
-      // Check if we got any star counts
-      const hasStars = results.some(r => r.stars !== null);
+      const byId = Object.fromEntries(results.map(result => [result.id, result]));
+
+      // Check if we got any counts at all
+      const hasCounts = results.some(r => r.users !== null || r.stars !== null);
 
       // Sort based on what data we have
       const sorted = [...projects].sort((a, b) => {
-        if (hasStars) {
-          // Sort by stars (descending), with null values at the end
-          const aResult = results.find(r => r.project.id === a.id);
-          const bResult = results.find(r => r.project.id === b.id);
-          const aStars = aResult?.stars ?? -1;
-          const bStars = bResult?.stars ?? -1;
-
-          if (aStars !== bStars) {
-            return bStars - aStars; // Higher stars first
+        if (hasCounts) {
+          // Sort by popularity (descending), with unknown values at the end
+          const difference = getPopularity(byId, b) - getPopularity(byId, a);
+          if (difference !== 0) {
+            return difference;
           }
         }
 
@@ -195,6 +225,10 @@ function Projects() {
     };
 
     sortProjects();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
@@ -238,9 +272,13 @@ function Projects() {
                         {project.status}
                       </span>
                     )}
-                    {project.githubUrl && <GitHubStars githubUrl={project.githubUrl} />}
-                    {project.githubUrls && project.githubUrls[0] && (
-                      <GitHubStars githubUrl={project.githubUrls[0].url} />
+                    {project.userCount ? (
+                      <UserCount
+                        count={counts[project.id]?.users}
+                        label={project.userCount.label}
+                      />
+                    ) : (
+                      <GitHubStars stars={counts[project.id]?.stars} />
                     )}
                     {project.tags.map((tag) => (
                       <span key={tag} className="project-tag">{tag}</span>
@@ -287,7 +325,7 @@ function Projects() {
                         rel="noopener noreferrer"
                         className="project-btn project-btn-primary"
                       >
-                        Download
+                        {project.downloadLabel || 'Download'}
                       </a>
                     )}
                     {project.githubUrl && (

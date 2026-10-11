@@ -178,6 +178,24 @@
   fill: #fbbf24;
 }
 
+/* Shown instead of the star count for projects that live off GitHub */
+.project-users {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  background: rgba(232, 90, 90, 0.18);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.project-users svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--accent-primary);
+}
+
 .project-description {
   font-size: 1.15rem;
   line-height: 1.6;

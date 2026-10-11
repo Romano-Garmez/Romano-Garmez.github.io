@@ -307,6 +307,16 @@
   margin: 20px 0;
 }
 
+/* Blogger builds a side-by-side image row as several inline <a>/<img> sitting
+   in one centred .separator div. The block display above gave each image its
+   own line, which stacked those rows vertically; keeping them inline restores
+   the row, and it still wraps when the column is too narrow to fit them. */
+.post-content .post-body .separator img {
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px 5px;
+}
+
 .post-content .post-body p {
   margin-bottom: 1em;
 }
