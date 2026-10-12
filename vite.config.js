@@ -18,6 +18,9 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
   },
+  preview: {
+    allowedHosts: ['.ngrok-free.dev'],
+  },
   server: {
     proxy: {
       // Proxy Blogger RSS feed to avoid CORS in development
